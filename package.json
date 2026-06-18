@@ -1,0 +1,77 @@
+{
+  "name": "@node-cron/redis-coordinator",
+  "version": "0.1.0",
+  "description": "Redis-backed RunCoordinator for node-cron: per-fire, highly-available coordination of distributed tasks across a fleet.",
+  "author": "Lucas Merencia",
+  "license": "ISC",
+  "homepage": "https://github.com/merencia/node-cron",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "scripts": {
+    "test": "vitest run --coverage",
+    "test:watch": "vitest",
+    "test:integration": "vitest run --config vitest.integration.config.ts",
+    "lint": "./node_modules/.bin/eslint ./src",
+    "check": "npm run lint && npm test",
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "prepack": "npm run build"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "files": [
+    "dist/"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/merencia/node-cron.git"
+  },
+  "keywords": [
+    "cron",
+    "scheduler",
+    "node-cron",
+    "redis",
+    "distributed",
+    "lock",
+    "coordinator",
+    "high-availability"
+  ],
+  "bugs": {
+    "url": "https://github.com/merencia/node-cron/issues"
+  },
+  "peerDependencies": {
+    "node-cron": ">=4.3.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.26.0",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@rollup/plugin-typescript": "^12.3.0",
+    "@testcontainers/redis": "^10.13.0",
+    "@types/chai": "^5.2.1",
+    "@types/node": "^22.15.3",
+    "@vitest/coverage-v8": "^4.1.9",
+    "chai": "^5.2.0",
+    "eslint": "^10.5.0",
+    "globals": "^16.1.0",
+    "ioredis": "^5.4.1",
+    "node-cron": "^4.4.0",
+    "redis": "^4.7.0",
+    "rollup": "^4.62.0",
+    "rollup-plugin-dts": "^6.4.1",
+    "testcontainers": "^10.13.0",
+    "tslib": "^2.8.1",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.32.0",
+    "vitest": "^4.1.9"
+  }
+}
