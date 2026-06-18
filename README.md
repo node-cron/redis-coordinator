@@ -107,7 +107,7 @@ cron.setRunCoordinator(new RedisLockCoordinator(redis));
 cron.schedule('0 3 * * *', () => runNightlyBackup(), {
   name: 'nightly-backup',
   distributed: true,
-  distributedTtl: 5 * 60_000, // the backup can take up to ~5 minutes (see below)
+  distributedLease: 5 * 60_000, // the backup can take up to ~5 minutes (see below)
 });
 ```
 
@@ -138,8 +138,8 @@ new RedisLockCoordinator(client, {
 
 ## How it works
 
-- **`shouldRun(key, ttlMs)`** runs a single atomic `SET <prefix><key> <token> NX
-  PX <ttlMs>`. `NX` means it only sets if the key is free, so exactly one racing
+- **`shouldRun(key, leaseMs)`** runs a single atomic `SET <prefix><key> <token> NX
+  PX <leaseMs>`. `NX` means it only sets if the key is free, so exactly one racing
   instance gets `OK` (returns `true`); the others get `null` (`false`). The
   unique `token` is remembered for release.
 - **`onComplete(key)`** releases the lock with an atomic Lua compare-and-delete:
@@ -160,13 +160,13 @@ from "another instance won".
 - **Not** absolute exactly-once. A crash plus retry, or large clock skew, can run
   a fire again. For strong exactly-once semantics, **make the task idempotent**.
 
-### `distributedTtl` must be longer than the task
+### `distributedLease` must be longer than the task
 
-The TTL is a safety net against a crashed holder. In normal operation node-cron
+The lease is a safety net against a crashed holder. In normal operation node-cron
 calls `onComplete` as soon as the task finishes, so the key is released
-immediately. But if `distributedTtl` is **shorter than the task's runtime**, the
+immediately. But if `distributedLease` is **shorter than the task's runtime**, the
 key expires mid-run and another instance can start a concurrent run. Always set
-`distributedTtl` comfortably above the task's worst-case duration.
+`distributedLease` comfortably above the task's worst-case duration.
 
 ### Clock-skew detection (optional)
 

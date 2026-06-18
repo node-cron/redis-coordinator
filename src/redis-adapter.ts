@@ -11,10 +11,10 @@
  */
 export interface RedisAdapter {
   /**
-   * Atomic `SET key value NX PX ttlMs`. Returns `true` when the key was set
+   * Atomic `SET key value NX PX leaseMs`. Returns `true` when the key was set
    * (lock acquired), `false` when it already existed (another holder).
    */
-  setNxPx(key: string, value: string, ttlMs: number): Promise<boolean>;
+  setNxPx(key: string, value: string, leaseMs: number): Promise<boolean>;
   /** Runs a Lua script against a single key. Returns the raw reply. */
   evalCompareAndDelete(script: string, key: string, arg: string): Promise<unknown>;
   /** Redis server time in milliseconds (from the `TIME` command). */
@@ -51,8 +51,8 @@ function timeReplyToMs(reply: unknown): number {
 
 function ioredisAdapter(client: any): RedisAdapter {
   return {
-    async setNxPx(key, value, ttlMs) {
-      const res = await client.set(key, value, "PX", ttlMs, "NX");
+    async setNxPx(key, value, leaseMs) {
+      const res = await client.set(key, value, "PX", leaseMs, "NX");
       return res === "OK";
     },
     evalCompareAndDelete(script, key, arg) {
@@ -68,8 +68,8 @@ function ioredisAdapter(client: any): RedisAdapter {
 
 function nodeRedisAdapter(client: any): RedisAdapter {
   return {
-    async setNxPx(key, value, ttlMs) {
-      const res = await client.set(key, value, { NX: true, PX: ttlMs });
+    async setNxPx(key, value, leaseMs) {
+      const res = await client.set(key, value, { NX: true, PX: leaseMs });
       return res === "OK";
     },
     evalCompareAndDelete(script, key, arg) {

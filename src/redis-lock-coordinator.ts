@@ -81,9 +81,9 @@ export class RedisLockCoordinator implements RunCoordinator {
    * `reason: 'coordinator-error'`. We deliberately do not swallow Redis errors,
    * so a real outage is distinguishable from "another instance won".
    */
-  async shouldRun(key: string, ttlMs: number): Promise<boolean> {
+  async shouldRun(key: string, leaseMs: number): Promise<boolean> {
     const token = randomUUID();
-    const acquired = await this.adapter.setNxPx(this.keyPrefix + key, token, ttlMs);
+    const acquired = await this.adapter.setNxPx(this.keyPrefix + key, token, leaseMs);
     if (acquired) {
       this.tokens.set(key, token);
     }
