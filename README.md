@@ -85,7 +85,8 @@ npm install @node-cron/redis-coordinator node-cron redis
 npm install @node-cron/redis-coordinator node-cron ioredis
 ```
 
-`node-cron` (>= 4.3) is a peer dependency. The Redis client is **not** a
+`node-cron` (>= 4.4.1, the first release with `distributedLease`) is a peer
+dependency. The Redis client is **not** a
 dependency of this package at all: it is something you bring. If your app already
 has `redis` or `ioredis` in its `package.json`, you do not add anything new for
 the client. See [the section above](#you-bring-the-redis-client-this-package-does-not).
@@ -198,7 +199,7 @@ emit `execution:skipped` with `context.reason`:
 ## Compatibility
 
 - Node.js >= 20.
-- `node-cron` >= 4.3 (peer dependency).
+- `node-cron` >= 4.4.1 (peer dependency).
 - Redis client: `ioredis` or `node-redis` v4 (injected, auto-detected).
 - Ships ESM + CJS with TypeScript types.
 
