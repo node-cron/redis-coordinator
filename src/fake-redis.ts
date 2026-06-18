@@ -57,7 +57,7 @@ export class FakeRedis {
   }
 
   /** Test helper: forcibly seat a value (simulates another instance's lock). */
-  seed(key: string, value: string, ttlMs: number): void {
-    this.store.set(key, { value, expiresAt: Date.now() + ttlMs });
+  seed(key: string, value: string, leaseMs: number): void {
+    this.store.set(key, { value, expiresAt: Date.now() + leaseMs });
   }
 }
