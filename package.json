@@ -23,7 +23,7 @@
     "test": "vitest run --coverage",
     "test:watch": "vitest",
     "test:integration": "vitest run --config vitest.integration.config.ts",
-    "lint": "./node_modules/.bin/eslint ./src",
+    "lint": "eslint ./src",
     "check": "npm run lint && npm test",
     "build": "rollup -c",
     "dev": "rollup -c -w",
