@@ -4,8 +4,11 @@
   "description": "Redis-backed RunCoordinator for node-cron: per-fire, highly-available coordination of distributed tasks across a fleet.",
   "author": "Lucas Merencia",
   "license": "ISC",
-  "homepage": "https://github.com/merencia/node-cron",
+  "homepage": "https://github.com/node-cron/redis-coordinator#readme",
   "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -34,7 +37,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/merencia/node-cron.git"
+    "url": "git+https://github.com/node-cron/redis-coordinator.git"
   },
   "keywords": [
     "cron",
@@ -47,7 +50,7 @@
     "high-availability"
   ],
   "bugs": {
-    "url": "https://github.com/merencia/node-cron/issues"
+    "url": "https://github.com/node-cron/redis-coordinator/issues"
   },
   "peerDependencies": {
     "node-cron": ">=4.4.1"
